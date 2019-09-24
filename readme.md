@@ -22,7 +22,3 @@ git strategy:
 <br>
 atom packages<br>
   python-debugger
-
-
-atom packages
-  python-debugger
