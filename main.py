@@ -61,6 +61,13 @@ class bsTree:
         self.Nil.setParent(self.root)
         self.Nil.setRightChild(self.root)
         self.Nil.setLeftChild(self.root)
+        
+    def leftRotate(self, pivotNode = None):
+        if pivotNode is None:
+            pivotNode = self.root
+        rotateNode = pivotNode.rightChild
+        
+        return
 
     def insert(self):
         return
@@ -103,7 +110,13 @@ class bsTree:
 
     #Need to double check algorithm
     def transplant(self, unplantNode = self.root, plantNode = self.Nil):
-        
+        if (unplantNode.parent == self.Nil):
+            self.root = plantNode
+        elif (unplantNode == unplantNode.parent.leftChild):
+            unplantNode.parent.leftChild = plantNode
+        else:
+            unplantNode.parent.rightChild = plantNode
+        plantNode.parent = unplantNode.parent
         return
 
     def predecessor(self, startNode):
