@@ -10,6 +10,10 @@ class color(enum.Enum):
     RED = enum.auto()
     BLACK = enum.auto()
 
+###############################################################################
+# NODE
+###############################################################################
+
 
 # node class, has parent, children, and data
 class node:
@@ -49,6 +53,10 @@ class node:
 
     def getRightChild(self):
         return self.leftChild
+
+###############################################################################
+# BS-Tree
+###############################################################################
 
 
 class bsTree:
@@ -96,7 +104,15 @@ class bsTree:
     def delete(self):
         return
 
+    def search(self, value, currNode=None):
+        # make sure node passed is not nill
+        if currNode is None:
+            currNode = self.root
+
+        # Search for value
         while (currNode.data != value):
+            # value will be less than or greater
+            # return None if value is not found before nill node
             if (currNode.data < value):
                 if(currNode.leftChild == self.Nil):
                     return None
@@ -107,7 +123,6 @@ class bsTree:
                     return None
                 else:
                     currNode = currNode.rightChild
-        
         return currNode
 
     def printTree(self, indent=" ", currNode=None):
@@ -151,10 +166,20 @@ class bsTree:
             minNode = startNode
         return minNode
 
+    def minimum(self, startNode=None):
+        if startNode is None:
+            startNode = self.root
+        # while left child is not nill node, continue left
         if startNode != self.Nil:
             while (startNode.leftChild != self.Nil):
+                startNode = startNode.leftChild
         return startNode
 
+    def maximum(self, startNode=None):
+        if startNode is None:
+            startNode = self.root
+        # while right child is not nill node, continue right
         if startNode != self.Nil:
             while (startNode.rightChild != self.Nil):
+                startNode = startNode.rightChild
         return startNode
