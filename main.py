@@ -65,13 +65,35 @@ class bsTree:
     def delete(self):
         return
 
-    def search(self):
-        return
+    def search(self, currNode = self.root, value):
+        
+        #make sure node passed is not nill
+        if currNode == self.Nil:
+            return None
+        
+        #Search for value
+        while (currNode.data != value):
+            #value will be less than or greater
+            #return None if value is not found before nill node
+            if (currNode.data < value):
+                if(currNode.leftChild == self.Nil):
+                    return None
+                else:
+                    currNode = currNode.leftChild
+            else:
+                if(currNode.rightChild == self.Nil):
+                    return None
+                else:
+                    currNode = currNode.rightChild
+        
+        return currNode
 
     def print(self):
         return
 
-    def transplant(self):
+    #Need to double check algorithm
+    def transplant(self, unplantNode = self.root, plantNode = self.Nil):
+        
         return
 
     def predecessor(self):
@@ -80,8 +102,18 @@ class bsTree:
     def successor(self):
         return
 
-    def minimum(self):
-        return
+    def minimum(self, startNode = self.root):
+        #while left child is not nill node, continue left
+        if startNode != self.Nil:
+            while (startNode.leftChild != self.Nil):
+                startNode = startNode.leftChild;
+        
+        return startNode
 
-    def maximum(self):
-        return
+    def maximum(self, startNode = self.root):
+        #while right child is not nill node, continue right
+        if startNode != self.Nil:
+            while (startNode.rightChild != self.Nil):
+                startNode = startNode.rightChild;
+        
+        return startNode
