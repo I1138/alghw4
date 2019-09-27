@@ -4,9 +4,10 @@ import enum
 
 def main():
     tree = bsTree(15)
-    tree.print()
+    tree.printTree()
+    print("inserting 10")
     tree.insert(10)
-    tree.print()
+    tree.printTree()
     return
 
 
@@ -74,8 +75,19 @@ class bsTree:
         self.Nil.setRightChild(self.root)
         self.Nil.setLeftChild(self.root)
 
-    def insert(self):
-        return
+    def insert(self, data):
+        currNode = self.root
+        pastNode = None
+        while currNode != self.Nil:
+            pastNode = currNode
+            if currNode.getData() <= data:
+                currNode = currNode.getRightChild()
+            else:
+                currNode = currNode.getLeftChild()
+        if pastNode.data <= data:
+            pastNode.setRightChild(node(data, pastNode, self.Nil, self.Nil))
+        else:
+            pastNode.setLeftChild(node(data, pastNode, self.Nil, self.Nil))
 
     def delete(self):
         return
@@ -104,7 +116,7 @@ class bsTree:
     def printTree(self, indent=" ", currNode=None):
         if currNode is None:
             currNode = self.root
-        print(indent + currNode.getData())
+        print(indent, currNode.getData())
         if currNode.getLeftChild() != self.Nil:
             self.printTree(indent+" ", currNode.getLeftChild())
         if currNode.getRightChild() != self.Nil:
@@ -147,3 +159,7 @@ class bsTree:
             while (startNode.rightChild != self.Nil):
                 startNode = startNode.rightChild
         return startNode
+
+
+if __name__ == '__main__':
+    main()
