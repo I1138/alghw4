@@ -10,6 +10,10 @@ class color(enum.Enum):
     RED = enum.auto()
     BLACK = enum.auto()
 
+###############################################################################
+# NODE
+###############################################################################
+
 
 # node class, has parent, children, and data
 class node:
@@ -50,6 +54,10 @@ class node:
     def getRightChild(self):
         return self.leftChild
 
+###############################################################################
+# BS-Tree
+###############################################################################
+
 
 class bsTree:
     def __init__(self, data=None):
@@ -86,9 +94,33 @@ class bsTree:
             rotateNode.parent.leftChild = rotateNode
         else:
             rotateNode.parent.rightChild = rotateNode
-            
         return
     
+    def rightRotate(self, pivotNode = None):
+        #check inputs
+        if pivotNode is None:
+            pivotNode = self.root
+            
+        rotateNode = None
+
+        #check node we expect to rotate
+        if pivotNode.leftChild != self.Nil:
+            rotateNode = pivotNode.leftChild
+        else:
+            return
+
+        #exchange pointers
+        rotateNode.parent = pivotNode.parent
+        pivotNode.parent = rotateNode
+        pivotNode.leftChild = self.Nil
+        rotateNode.rightChild = pivotNode
+
+        #end condition for if pivot node is left or right child
+        if pivotNode = pivotNode.parent.leftChild:
+            rotateNode.parent.leftChild = rotateNode
+        else:
+            rotateNode.parent.rightChild = rotateNode
+        return
 
     def insert(self):
         return
@@ -96,7 +128,15 @@ class bsTree:
     def delete(self):
         return
 
+    def search(self, value, currNode=None):
+        # make sure node passed is not nill
+        if currNode is None:
+            currNode = self.root
+
+        # Search for value
         while (currNode.data != value):
+            # value will be less than or greater
+            # return None if value is not found before nill node
             if (currNode.data < value):
                 if(currNode.leftChild == self.Nil):
                     return None
@@ -107,7 +147,6 @@ class bsTree:
                     return None
                 else:
                     currNode = currNode.rightChild
-        
         return currNode
 
     def printTree(self, indent=" ", currNode=None):
@@ -120,7 +159,6 @@ class bsTree:
             self.printTree(indent+" ", currNode.getRightChild())
         return
 
-<<<<<<< HEAD
     #Need to double check algorithm
     def transplant(self, unplantNode = self.root, plantNode = self.Nil):
         if (unplantNode.parent == self.Nil):
@@ -130,11 +168,6 @@ class bsTree:
         else:
             unplantNode.parent.rightChild = plantNode
         plantNode.parent = unplantNode.parent
-=======
-    # TODO: Need to double check algorithm
-    def transplant(self, unplantNode, plantNode):
-
->>>>>>> Master_Joel
         return
 
     def predecessor(self, startNode):
@@ -151,10 +184,20 @@ class bsTree:
             minNode = startNode
         return minNode
 
+    def minimum(self, startNode=None):
+        if startNode is None:
+            startNode = self.root
+        # while left child is not nill node, continue left
         if startNode != self.Nil:
             while (startNode.leftChild != self.Nil):
+                startNode = startNode.leftChild
         return startNode
 
+    def maximum(self, startNode=None):
+        if startNode is None:
+            startNode = self.root
+        # while right child is not nill node, continue right
         if startNode != self.Nil:
             while (startNode.rightChild != self.Nil):
+                startNode = startNode.rightChild
         return startNode
