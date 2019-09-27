@@ -46,3 +46,42 @@ class node:
 
     def getRightChild(self):
         return self.leftChild
+
+
+class bsTree:
+    def __init__(self, data=None):
+        # create nil first
+        self.Nil = node(None, None, None, None)
+        # make root second, so that nil can be set as parent and child
+        self.root = node(data, self.Nil, self.Nil, self.Nil)
+        # update nil
+        self.Nil.setParent(self.root)
+        self.Nil.setRightChild(self.root)
+        self.Nil.setLeftChild(self.root)
+
+    def insert(self):
+        return
+
+    def delete(self):
+        return
+
+    def search(self):
+        return
+
+    def print(self):
+        return
+
+    def transplant(self):
+        return
+
+    def predecessor(self):
+        return
+
+    def successor(self):
+        return
+
+    def minimum(self):
+        return
+
+    def maximum(self):
+        return
