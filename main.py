@@ -23,6 +23,9 @@ class node:
     def getData(self):
         return self.data
 
+    def setData(self, data):
+        self.data = data
+
     def setColor(self, color):
         self.color = color
 
@@ -68,17 +71,32 @@ class bsTree:
     def search(self):
         return
 
-    def print(self):
+    def printTree(self, indent=" ", currNode=None):
+        if currNode is None:
+            currNode = self.root
+        print(indent + currNode.getData())
+        if currNode.getLeftChild() != self.Nil:
+            self.printTree(indent+" ", currNode.getLeftChild())
+        if currNode.getRightChild() != self.Nil:
+            self.printTree(indent+" ", currNode.getRightChild())
         return
 
     def transplant(self):
         return
 
-    def predecessor(self):
-        return
+    def predecessor(self, startNode):
+        if startNode != self.Nil and startNode.getLeftChild() != self.Nil:
+            minNode = self.minimum(startNode.getLeftChild())
+        else:
+            minNode = startNode
+        return minNode
 
-    def successor(self):
-        return
+    def successor(self, startNode):
+        if startNode != self.Nil and startNode.getRightChild() != self.Nil:
+            minNode = self.minimum(startNode.getRightChild())
+        else:
+            minNode = startNode
+        return minNode
 
     def minimum(self):
         return
