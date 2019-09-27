@@ -57,7 +57,7 @@ class node:
         self.rightChild = nodeRightChild
 
     def getRightChild(self):
-        return self.leftChild
+        return self.rightChild
 
 ###############################################################################
 # BS-Tree
