@@ -3,6 +3,10 @@ import enum
 
 
 def main():
+    tree = bsTree(15)
+    tree.print()
+    tree.insert(10)
+    tree.print()
     return
 
 
