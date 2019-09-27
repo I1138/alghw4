@@ -63,11 +63,32 @@ class bsTree:
         self.Nil.setLeftChild(self.root)
         
     def leftRotate(self, pivotNode = None):
+        #check inputs
         if pivotNode is None:
             pivotNode = self.root
-        rotateNode = pivotNode.rightChild
-        
+            
+        rotateNode = None
+
+        #check node we expect to rotate
+        if pivotNode.rightChild != self.Nil:
+            rotateNode = pivotNode.rightChild
+        else:
+            return
+
+        #exchange pointers
+        rotateNode.parent = pivotNode.parent
+        pivotNode.parent = rotateNode
+        pivotNode.rightChild = self.Nil
+        rotateNode.leftChild = pivotNode
+
+        #end condition for if pivot node is left or right child
+        if pivotNode = pivotNode.parent.leftChild:
+            rotateNode.parent.leftChild = rotateNode
+        else:
+            rotateNode.parent.rightChild = rotateNode
+            
         return
+    
 
     def insert(self):
         return
