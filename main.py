@@ -8,6 +8,16 @@ def main():
     print("inserting 10")
     tree.insert(10)
     tree.printTree()
+    print("inserting 16")
+    tree.insert(16)
+    tree.printTree()
+    print("inserting")
+    tree.insert(16)
+    tree.insert(16)
+    tree.insert(16)
+    tree.insert(16)
+    tree.insert(16)
+    tree.printTree()
     return
 
 
@@ -57,7 +67,7 @@ class node:
         self.rightChild = nodeRightChild
 
     def getRightChild(self):
-        return self.leftChild
+        return self.rightChild
 
 ###############################################################################
 # BS-Tree
