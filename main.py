@@ -129,6 +129,7 @@ class bsTree:
             self.printTree(indent+" ", currNode.getRightChild())
         return
 
+<<<<<<< HEAD
     #Need to double check algorithm
     def transplant(self, unplantNode = self.root, plantNode = self.Nil):
         if (unplantNode.parent == self.Nil):
@@ -138,6 +139,11 @@ class bsTree:
         else:
             unplantNode.parent.rightChild = plantNode
         plantNode.parent = unplantNode.parent
+=======
+    # TODO: Need to double check algorithm
+    def transplant(self, unplantNode, plantNode):
+
+>>>>>>> Master_Joel
         return
 
     def predecessor(self, startNode):
