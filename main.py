@@ -3,6 +3,21 @@ import enum
 
 
 def main():
+    tree = bsTree(15)
+    tree.printTree()
+    print("inserting 10")
+    tree.insert(10)
+    tree.printTree()
+    print("inserting 16")
+    tree.insert(16)
+    tree.printTree()
+    print("inserting")
+    tree.insert(16)
+    tree.insert(16)
+    tree.insert(16)
+    tree.insert(16)
+    tree.insert(16)
+    tree.printTree()
     return
 
 
@@ -52,7 +67,11 @@ class node:
         self.rightChild = nodeRightChild
 
     def getRightChild(self):
-        return self.leftChild
+        return self.rightChild
+
+###############################################################################
+# BS-Tree
+###############################################################################
 
 ###############################################################################
 # BS-Tree
@@ -125,9 +144,49 @@ class bsTree:
         pivotNode.setParent(rotateNode)
         return
 =======
-
-    def insert(self):
+            rotateNode.parent.rightChild = rotateNode
         return
+    
+    def rightRotate(self, pivotNode = None):
+        #check inputs
+        if pivotNode is None:
+            pivotNode = self.root
+            
+        rotateNode = None
+
+        #check node we expect to rotate
+        if pivotNode.leftChild != self.Nil:
+            rotateNode = pivotNode.leftChild
+        else:
+            return
+
+        #exchange pointers
+        rotateNode.parent = pivotNode.parent
+        pivotNode.parent = rotateNode
+        pivotNode.leftChild = self.Nil
+        rotateNode.rightChild = pivotNode
+>>>>>>> Master_Joel
+
+        #end condition for if pivot node is left or right child
+        if pivotNode = pivotNode.parent.leftChild:
+            rotateNode.parent.leftChild = rotateNode
+        else:
+            rotateNode.parent.rightChild = rotateNode
+        return
+
+    def insert(self, data):
+        currNode = self.root
+        pastNode = None
+        while currNode != self.Nil:
+            pastNode = currNode
+            if currNode.getData() <= data:
+                currNode = currNode.getRightChild()
+            else:
+                currNode = currNode.getLeftChild()
+        if pastNode.data <= data:
+            pastNode.setRightChild(node(data, pastNode, self.Nil, self.Nil))
+        else:
+            pastNode.setLeftChild(node(data, pastNode, self.Nil, self.Nil))
 
     def delete(self):
         return
@@ -156,7 +215,7 @@ class bsTree:
     def printTree(self, indent=" ", currNode=None):
         if currNode is None:
             currNode = self.root
-        print(indent + currNode.getData())
+        print(indent, currNode.getData())
         if currNode.getLeftChild() != self.Nil:
             self.printTree(indent+" ", currNode.getLeftChild())
         if currNode.getRightChild() != self.Nil:
@@ -205,3 +264,7 @@ class bsTree:
             while (startNode.rightChild != self.Nil):
                 startNode = startNode.rightChild
         return startNode
+
+
+if __name__ == '__main__':
+    main()
