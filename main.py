@@ -126,7 +126,6 @@ class bsTree:
             self.printTree(indent+">", currNode.getRightChild())
         return
 
-    # Need to double check algorithm
     def transplant(self, unplantNode, plantNode):
         if (unplantNode.parent == self.Nil):
             self.root = plantNode
