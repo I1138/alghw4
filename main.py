@@ -7,12 +7,31 @@ def main():
     tree = bsTree(10)
     for i in range(10):
         tree.insert(random.randint(0, 20))
+        # tree.printTree()
+        # checkTree(tree, tree.root)
+        # print()
     tree.printTree()
     print(tree.minimum().getData())
     print(tree.successor(tree.minimum()).getData())
     print(tree.maximum().getData())
     print(tree.predecessor(tree.maximum()).getData())
+    tree.delete(tree.predecessor(tree.maximum()))
+    tree.printTree()
+    checkTree(tree, tree.root)
     return
+
+
+def checkTree(tree, currNode):
+    if currNode == tree.Nil:
+        return
+    if currNode.parent.leftChild != currNode and currNode.parent.rightChild != currNode:
+        print("child unclaimed by parent confusion on", currNode.data, "and parent", currNode.parent.data)
+    if currNode.leftChild != tree.Nil and currNode.leftChild.parent != currNode:
+        print("left child of parent", currNode.data, "does not recognize parent")
+    if currNode.rightChild != tree.Nil and currNode.rightChild.parent != currNode:
+        print("right child of parent", currNode.data, "does not recognize parent")
+    checkTree(tree, currNode.leftChild)
+    checkTree(tree, currNode.rightChild)
 
 
 class color(enum.Enum):
@@ -99,8 +118,24 @@ class bsTree:
         else:
             pastNode.setLeftChild(node(data, pastNode, self.Nil, self.Nil))
 
-    def delete(self):
-        return
+    def delete(self, deleteNode):
+        # single or no child cases
+        if deleteNode.getLeftChild() == self.Nil:
+            self.transplant(deleteNode, deleteNode.getRightChild())
+        elif deleteNode.getRightChild() == self.Nil:
+            self.transplant(deleteNode, deleteNode.getLeftChild())
+        # two child cases
+        else:
+            successor = self.successor(deleteNode)
+            # successor is removed from parent
+            if successor.getParent() != deleteNode:
+                self.transplant(successor, successor.getRightChild())
+                successor.setRightChild(deleteNode.getRightChild())
+                successor.getRightChild().setParent(successor)
+            # successor is not removed from parent
+            self.transplant(deleteNode, successor)
+            successor.setLeftChild(deleteNode.getLeftChild())
+            successor.getLeftChild().setParent(successor)
 
     def search(self, value, currNode=None):
         # make sure node passed is not nill
