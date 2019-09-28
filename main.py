@@ -99,9 +99,33 @@ class bsTree:
             rotateNode.parent.leftChild = rotateNode
         else:
             rotateNode.parent.rightChild = rotateNode
-            
         return
     
+    def rightRotate(self, pivotNode = None):
+        #check inputs
+        if pivotNode is None:
+            pivotNode = self.root
+            
+        rotateNode = None
+
+        #check node we expect to rotate
+        if pivotNode.leftChild != self.Nil:
+            rotateNode = pivotNode.leftChild
+        else:
+            return
+
+        #exchange pointers
+        rotateNode.parent = pivotNode.parent
+        pivotNode.parent = rotateNode
+        pivotNode.leftChild = self.Nil
+        rotateNode.rightChild = pivotNode
+
+        #end condition for if pivot node is left or right child
+        if pivotNode = pivotNode.parent.leftChild:
+            rotateNode.parent.leftChild = rotateNode
+        else:
+            rotateNode.parent.rightChild = rotateNode
+        return
 
     def insert(self, data):
         currNode = self.root
@@ -151,7 +175,6 @@ class bsTree:
             self.printTree(indent+" ", currNode.getRightChild())
         return
 
-<<<<<<< HEAD
     #Need to double check algorithm
     def transplant(self, unplantNode = self.root, plantNode = self.Nil):
         if (unplantNode.parent == self.Nil):
@@ -161,11 +184,6 @@ class bsTree:
         else:
             unplantNode.parent.rightChild = plantNode
         plantNode.parent = unplantNode.parent
-=======
-    # TODO: Need to double check algorithm
-    def transplant(self, unplantNode, plantNode):
-
->>>>>>> Master_Joel
         return
 
     def predecessor(self, startNode):
