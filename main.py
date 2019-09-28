@@ -69,57 +69,59 @@ class bsTree:
         self.Nil.setParent(self.root)
         self.Nil.setRightChild(self.root)
         self.Nil.setLeftChild(self.root)
-        
+
     def leftRotate(self, pivotNode = None):
         #check inputs
         if pivotNode is None:
             pivotNode = self.root
-            
-        rotateNode = None
 
-        #check node we expect to rotate
-        if pivotNode.rightChild != self.Nil:
-            rotateNode = pivotNode.rightChild
+        #set rotateing node
+        rotateNode = pivotNode.getRightChild()
+
+        #turn rotateNode's left subtree into pivotNode's right subtree
+        pivotNode.setRightChild(rotateNode.getLeftChild())
+        if rotateNode != self.Nil:
+            rotate.leftChild.setParent(pivotNode)
+
+        #link pivotNode's parent to rotateNode
+        rotateNode.setParent(pivotNode.getParent())
+        if pivotNode.parent == self.nil:
+            self.root = rotateNode
+        elif pivotNode == pivotNode.getParent().getLeftChild():
+            pivotNode.parent.setLeftChild(rotateNode)
         else:
-            return
+            pivotNode.parent.setRightChild(rotateNode)
 
-        #exchange pointers
-        rotateNode.parent = pivotNode.parent
-        pivotNode.parent = rotateNode
-        pivotNode.rightChild = self.Nil
-        rotateNode.leftChild = pivotNode
-
-        #end condition for if pivot node is left or right child
-        if pivotNode = pivotNode.parent.leftChild:
-            rotateNode.parent.leftChild = rotateNode
-        else:
-            rotateNode.parent.rightChild = rotateNode
+        #link pivotNode's parent to pivotNode
+        rotateNode.setLeftChild(pivotNode)
+        pivotNode.setParent(rotateNode)
         return
-    
+
     def rightRotate(self, pivotNode = None):
         #check inputs
         if pivotNode is None:
             pivotNode = self.root
-            
-        rotateNode = None
 
-        #check node we expect to rotate
-        if pivotNode.leftChild != self.Nil:
-            rotateNode = pivotNode.leftChild
+        #set rotateing node
+        rotateNode = pivotNode.getLeftChild()
+
+        #turn rotateNode's left subtree into pivotNode's right subtree
+        pivotNode.setLeftChild(rotateNode.getRightChild())
+        if rotateNode != self.Nil:
+            rotateNode.rightChild.setParent(pivotNode)
+
+        #link pivotNode's parent to rotateNode
+        rotateNode.setParent(pivotNode.getParent())
+        if pivotNode.parent == self.nil:
+            self.root = rotateNode
+        elif pivotNode == pivotNode.getParent().getRightChild():
+            pivotNode.parent.setRightChild(rotateNode)
         else:
-            return
+            pivotNode.parent.setLeftChild(rotateNode)
 
-        #exchange pointers
-        rotateNode.parent = pivotNode.parent
-        pivotNode.parent = rotateNode
-        pivotNode.leftChild = self.Nil
-        rotateNode.rightChild = pivotNode
-
-        #end condition for if pivot node is left or right child
-        if pivotNode = pivotNode.parent.leftChild:
-            rotateNode.parent.leftChild = rotateNode
-        else:
-            rotateNode.parent.rightChild = rotateNode
+        #link pivotNode's parent to pivotNode
+        rotateNode.setRightChild(pivotNode)
+        pivotNode.setParent(rotateNode)
         return
 
     def insert(self):
