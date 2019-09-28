@@ -23,15 +23,24 @@ def main():
 
 def checkTree(tree, currNode):
     if currNode == tree.Nil:
-        return
+        return 1
     if currNode.parent.leftChild != currNode and currNode.parent.rightChild != currNode:
         print("child unclaimed by parent confusion on", currNode.data, "and parent", currNode.parent.data)
     if currNode.leftChild != tree.Nil and currNode.leftChild.parent != currNode:
         print("left child of parent", currNode.data, "does not recognize parent")
     if currNode.rightChild != tree.Nil and currNode.rightChild.parent != currNode:
         print("right child of parent", currNode.data, "does not recognize parent")
-    checkTree(tree, currNode.leftChild)
-    checkTree(tree, currNode.rightChild)
+    leftBlackHeight = checkTree(tree, currNode.leftChild)
+    rightBlackHeight = checkTree(tree, currNode.rightChild)
+    if leftBlackHeight != rightBlackHeight:
+        print("Black heights uneven at", currNode.data)
+        # force unevenness up the rest of the tree
+        blackHeight = -10
+    else:
+        blackHeight = leftBlackHeight
+    if currNode.getColor() == color.BLACK:
+        blackHeight += 1
+    return blackHeight
 
 
 class color(enum.Enum):
@@ -218,6 +227,7 @@ class bsTree:
         return startNode
 
 
+# rbTree inherits from bsTree
 class rbTree(bsTree):
     def leftRotate(self, pivotNode=None):
         # check inputs
