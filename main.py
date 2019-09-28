@@ -117,12 +117,14 @@ class bsTree:
         elif pivotNode == pivotNode.getParent().getRightChild():
             pivotNode.parent.setRightChild(rotateNode)
         else:
+<<<<<<< HEAD
             pivotNode.parent.setLeftChild(rotateNode)
 
         #link pivotNode's parent to pivotNode
         rotateNode.setRightChild(pivotNode)
         pivotNode.setParent(rotateNode)
         return
+=======
 
     def insert(self):
         return
