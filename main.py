@@ -8,6 +8,10 @@ def main():
     for i in range(10):
         tree.insert(random.randint(0, 20))
     tree.printTree()
+    print(tree.minimum().getData())
+    print(tree.successor(tree.minimum()).getData())
+    print(tree.maximum().getData())
+    print(tree.predecessor(tree.maximum()).getData())
     return
 
 
@@ -126,7 +130,6 @@ class bsTree:
             self.printTree(indent+">", currNode.getRightChild())
         return
 
-    # Need to double check algorithm
     def transplant(self, unplantNode, plantNode):
         if (unplantNode.parent == self.Nil):
             self.root = plantNode
