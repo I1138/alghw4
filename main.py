@@ -84,7 +84,13 @@ class bsTree:
                 currNode = currNode.getRightChild()
             else:
                 currNode = currNode.getLeftChild()
-        if pastNode.data <= data:
+        # deal with empty tree
+        if self.Nil.getParent() == self.Nil:
+            self.root = node(data, self.Nil, self.Nil, self.Nil)
+            self.Nil.setLeftChild(self.root)
+            self.Nil.setRightChild(self.root)
+            self.Nil.setParent(self.root)
+        elif pastNode.data <= data:
             pastNode.setRightChild(node(data, pastNode, self.Nil, self.Nil))
         else:
             pastNode.setLeftChild(node(data, pastNode, self.Nil, self.Nil))
@@ -98,19 +104,16 @@ class bsTree:
             currNode = self.root
 
         # Search for value
-        while (currNode.data != value):
+        while currNode.data != value and currNode != self.Nil:
             # value will be less than or greater
             # return None if value is not found before nill node
             if (currNode.data < value):
-                if(currNode.leftChild == self.Nil):
-                    return None
-                else:
-                    currNode = currNode.leftChild
+                currNode = currNode.leftChild
             else:
-                if(currNode.rightChild == self.Nil):
-                    return None
-                else:
-                    currNode = currNode.rightChild
+                currNode = currNode.rightChild
+        # don't return nil
+        if currNode == self.Nil:
+            currNode = None
         return currNode
 
     def printTree(self, indent=" ", currNode=None):
@@ -134,18 +137,28 @@ class bsTree:
         plantNode.parent = unplantNode.parent
         return
 
+    # returns nil if no predecessor found
     def predecessor(self, startNode):
-        if startNode != self.Nil and startNode.getLeftChild() != self.Nil:
-            minNode = self.minimum(startNode.getLeftChild())
+        # if has left sub tree
+        if startNode.getLeftChild() != self.Nil:
+            maxNode = self.maximum(startNode.getLeftChild())
+        # else, look up tree for node w/ successor startNode
         else:
-            minNode = startNode
-        return minNode
+            maxNode = startNode.getParent()
+            while maxNode != self.Nil and startNode == maxNode.getLeftChild():
+                startNode = maxNode
+                maxNode = maxNode.getParent()
+        return maxNode
 
+    # returns nil if no successor found
     def successor(self, startNode):
-        if startNode != self.Nil and startNode.getRightChild() != self.Nil:
+        if startNode.getRightChild() != self.Nil:
             minNode = self.minimum(startNode.getRightChild())
-        else:
-            minNode = startNode
+        else:  # look up tree for node w/ predecessor startNode
+            minNode = startNode.getParent()
+            while minNode != self.Nil and startNode == minNode.getRightChild():
+                startNode = minNode
+                minNode = minNode.getParent()
         return minNode
 
     def minimum(self, startNode=None):
