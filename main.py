@@ -1,22 +1,12 @@
 # algorithms hw 4
 import enum
+import random
 
 
 def main():
-    tree = bsTree(15)
-    tree.printTree()
-    print("inserting 10")
-    tree.insert(10)
-    tree.printTree()
-    print("inserting 16")
-    tree.insert(16)
-    tree.printTree()
-    print("inserting")
-    tree.insert(16)
-    tree.insert(16)
-    tree.insert(16)
-    tree.insert(16)
-    tree.insert(16)
+    tree = bsTree(10)
+    for i in range(10):
+        tree.insert(random.randint(0, 20))
     tree.printTree()
     return
 
@@ -84,58 +74,6 @@ class bsTree:
         self.Nil.setParent(self.root)
         self.Nil.setRightChild(self.root)
         self.Nil.setLeftChild(self.root)
-        
-    def leftRotate(self, pivotNode = None):
-        #check inputs
-        if pivotNode is None:
-            pivotNode = self.root
-            
-        rotateNode = None
-
-        #check node we expect to rotate
-        if pivotNode.rightChild != self.Nil:
-            rotateNode = pivotNode.rightChild
-        else:
-            return
-
-        #exchange pointers
-        rotateNode.parent = pivotNode.parent
-        pivotNode.parent = rotateNode
-        pivotNode.rightChild = self.Nil
-        rotateNode.leftChild = pivotNode
-
-        #end condition for if pivot node is left or right child
-        if pivotNode = pivotNode.parent.leftChild:
-            rotateNode.parent.leftChild = rotateNode
-        else:
-            rotateNode.parent.rightChild = rotateNode
-        return
-    
-    def rightRotate(self, pivotNode = None):
-        #check inputs
-        if pivotNode is None:
-            pivotNode = self.root
-            
-        rotateNode = None
-
-        #check node we expect to rotate
-        if pivotNode.leftChild != self.Nil:
-            rotateNode = pivotNode.leftChild
-        else:
-            return
-
-        #exchange pointers
-        rotateNode.parent = pivotNode.parent
-        pivotNode.parent = rotateNode
-        pivotNode.leftChild = self.Nil
-        rotateNode.rightChild = pivotNode
-
-        #end condition for if pivot node is left or right child
-        if pivotNode = pivotNode.parent.leftChild:
-            rotateNode.parent.leftChild = rotateNode
-        else:
-            rotateNode.parent.rightChild = rotateNode
-        return
 
     def insert(self, data):
         currNode = self.root
@@ -178,15 +116,15 @@ class bsTree:
     def printTree(self, indent=" ", currNode=None):
         if currNode is None:
             currNode = self.root
-        print(indent, currNode.getData())
+        print(indent, currNode.getData(), sep='')
         if currNode.getLeftChild() != self.Nil:
-            self.printTree(indent+" ", currNode.getLeftChild())
+            self.printTree(indent+"<", currNode.getLeftChild())
         if currNode.getRightChild() != self.Nil:
-            self.printTree(indent+" ", currNode.getRightChild())
+            self.printTree(indent+">", currNode.getRightChild())
         return
 
-    #Need to double check algorithm
-    def transplant(self, unplantNode = self.root, plantNode = self.Nil):
+    # Need to double check algorithm
+    def transplant(self, unplantNode, plantNode):
         if (unplantNode.parent == self.Nil):
             self.root = plantNode
         elif (unplantNode == unplantNode.parent.leftChild):
@@ -227,6 +165,59 @@ class bsTree:
             while (startNode.rightChild != self.Nil):
                 startNode = startNode.rightChild
         return startNode
+
+
+class rbTree(bsTree):
+    def leftRotate(self, pivotNode=None):
+        # check inputs
+        if pivotNode is None:
+            pivotNode = self.root
+        rotateNode = None
+
+        # check node we expect to rotate
+        if pivotNode.rightChild != self.Nil:
+            rotateNode = pivotNode.rightChild
+        else:
+            return
+
+        # exchange pointers
+        rotateNode.parent = pivotNode.parent
+        pivotNode.parent = rotateNode
+        pivotNode.rightChild = self.Nil
+        rotateNode.leftChild = pivotNode
+
+        # end condition for if pivot node is left or right child
+        if pivotNode == pivotNode.parent.leftChild:
+            rotateNode.parent.leftChild = rotateNode
+        else:
+            rotateNode.parent.rightChild = rotateNode
+        return
+
+    def rightRotate(self, pivotNode=None):
+        # check inputs
+        if pivotNode is None:
+            pivotNode = self.root
+
+        rotateNode = None
+
+        # check node we expect to rotate
+        if pivotNode.leftChild != self.Nil:
+            rotateNode = pivotNode.leftChild
+        else:
+            return
+
+        # exchange pointers
+        rotateNode.parent = pivotNode.parent
+        pivotNode.parent = rotateNode
+        pivotNode.leftChild = self.Nil
+        rotateNode.rightChild = pivotNode
+
+        # end condition for if pivot node is left or right child
+        if pivotNode == pivotNode.parent.leftChild:
+            rotateNode.parent.leftChild = rotateNode
+        else:
+            rotateNode.parent.rightChild = rotateNode
+        return
 
 
 if __name__ == '__main__':
