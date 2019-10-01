@@ -184,7 +184,6 @@ class bsTree:
         else:
             unplantNode.parent.rightChild = plantNode
         plantNode.parent = unplantNode.parent
-        return
 
     # returns nil if no predecessor found
     def predecessor(self, startNode):
@@ -228,6 +227,10 @@ class bsTree:
                 startNode = startNode.rightChild
         return startNode
 
+###############################################################################
+# RB-Tree
+###############################################################################
+
 
 # rbTree inherits from bsTree
 class rbTree(bsTree):
@@ -239,7 +242,6 @@ class rbTree(bsTree):
             self.printTree(indent+"<", currNode.getLeftChild())
         if currNode.getRightChild() != self.Nil:
             self.printTree(indent+">", currNode.getRightChild())
-        return
 
     def insert(self, data):
         currNode = self.root
@@ -256,7 +258,6 @@ class rbTree(bsTree):
         else:
             pastNode.setLeftChild(insertNode)
         self.insertFixUp(insertNode)
-        return
 
     def isRightChild(self, currNode):
         if currNode.parent.rightChild == currNode:
@@ -285,7 +286,6 @@ class rbTree(bsTree):
         # link pivotNode's parent to pivotNode
         rotateNode.setLeftChild(pivotNode)
         pivotNode.setParent(rotateNode)
-        return
 
     def rightRotate(self, pivotNode):
         # set rotateing node
@@ -345,6 +345,33 @@ class rbTree(bsTree):
                     currNode.getParent().getParent().setColor(color.RED)
                     self.leftRotate(currNode.getParent().getParent())
             self.root.setColor(color.BLACK)
+
+    def delete(self, deleteNode):
+        currNode = deleteNode
+        currNodeOrigColor = currNode.getColor()
+        moveNode = None
+        if deleteNode.getLeftChild() == self.Nil:
+            moveNode = deleteNode.getRightChild()
+            self.transplant(deleteNode, deleteNode.getRightChild())
+        elif deleteNode.getRightChild() == self.Nil:
+            moveNode = deleteNode.getLeftChild()
+            self.transplant(deleteNode, deleteNode.getLeftChild())
+        else:
+            currNode = self.minimum(deleteNode.getRightChild())
+            currNode.setColor(currNodeOrigColor)
+            moveNode = currNode.getRightChild()
+            if currNode.getParent() == deleteNode:
+                moveNode.getParent() == currNode
+            else:
+                self.transplant(currNode, currNode.getRightChild())
+                currNode.setRightChild(deleteNode.getRightChild())
+                currNode.getRightChild().setParent(currNode)
+            self.transplant(deleteNode, currNode)
+            currNode.setLeftChild(deleteNode.getLeftChild())
+            currNode.getLeftChild().setParent(currNode)
+            currNode.setColor(deleteNode.getColor())
+        if currNodeOrigColor == color.BLACK:
+            self.deleteFixup(moveNode)
 
 
 if __name__ == '__main__':
