@@ -373,6 +373,47 @@ class rbTree(bsTree):
         if currNodeOrigColor == color.BLACK:
             self.deleteFixup(moveNode)
 
+    def deleteFixup(self, currNode):
+        moveNode = None
+        while currNode != self.root and currNode.getColor() == color.BLACK:
+            if not self.isRightChild(currNode):
+                moveNode = currNode.getParent().getRightChild()
+                if moveNode.getColor() == color.RED:
+                    moveNode.setColor(color.BLACK)
+                    currNode.getParent().setColor(color.RED)
+                    self.leftRotate(currNode.getParent())
+                    moveNode = currNode.getParent().getRightChild()
+                if moveNode.getLeftChild().getColor() == color.BLACK and moveNode.getRightChild().getColor() == color.BLACK:
+                    moveNode.setColor(color.RED)
+                    currNode = currNode.getParent()
+                else:
+                    if moveNode.getRightChild().getColor() == color.BLACK:
+                        moveNode.getLeftChild().setColor(color.BLACK)
+                        moveNode.setColor(color.RED)
+                        self.rightRotate(moveNode)
+                    moveNode.setColor(currNode.getParent().getColor())
+                    currNode.getParent().setColor(color.BLACK)
+                    self.leftRotate(currNode.getParent())
+                    currNode = self.Root
+            else: # TODO: adjust left right
+                moveNode = currNode.getParent().getRightChild()
+                if moveNode.getColor() == color.RED:
+                    moveNode.setColor(color.BLACK)
+                    currNode.getParent().setColor(color.RED)
+                    self.leftRotate(currNode.getParent())
+                    moveNode = currNode.getParent().getRightChild()
+                if moveNode.getLeftChild().getColor() == color.BLACK and moveNode.getRightChild().getColor() == color.BLACK:
+                    moveNode.setColor(color.RED)
+                    currNode = currNode.getParent()
+                else:
+                    if moveNode.getRightChild().getColor() == color.BLACK:
+                        moveNode.getLeftChild().setColor(color.BLACK)
+                        moveNode.setColor(color.RED)
+                        self.rightRotate(moveNode)
+                    moveNode.setColor(currNode.getParent().getColor())
+                    currNode.getParent().setColor(color.BLACK)
+                    self.leftRotate(currNode.getParent())
+                    currNode = self.Root
 
 if __name__ == '__main__':
     main()
