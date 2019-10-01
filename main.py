@@ -30,6 +30,8 @@ def checkTree(tree, currNode):
         print("left child of parent", currNode.data, "does not recognize parent")
     if currNode.rightChild != tree.Nil and currNode.rightChild.parent != currNode:
         print("right child of parent", currNode.data, "does not recognize parent")
+    if currNode.getColor() == color.RED and currNode.getParent().getColor() == color.RED:
+        print("red node with red parent at ", currNode.data)
     leftBlackHeight = checkTree(tree, currNode.leftChild)
     rightBlackHeight = checkTree(tree, currNode.rightChild)
     if leftBlackHeight != rightBlackHeight:
@@ -248,11 +250,12 @@ class rbTree(bsTree):
                 currNode = currNode.getRightChild()
             else:
                 currNode = currNode.getLeftChild()
+        insertNode = node(data, pastNode, self.Nil, self.Nil, color.RED)
         if pastNode.data <= data:
-            pastNode.setRightChild(node(data, pastNode, self.Nil, self.Nil, color.RED))
+            pastNode.setRightChild(insertNode)
         else:
-            pastNode.setLeftChild(node(data, pastNode, self.Nil, self.Nil, color.RED))
-        self.insertFixUp(pastNode)
+            pastNode.setLeftChild(insertNode)
+        self.insertFixUp(insertNode)
         return
 
     def isRightChild(self, currNode):
@@ -272,6 +275,8 @@ class rbTree(bsTree):
         rotateNode.setParent(pivotNode.getParent())
         if pivotNode.parent == self.Nil:
             self.root = rotateNode
+            self.Nil.setLeftChild(self.root)
+            self.Nil.setRightChild(self.root)
         elif pivotNode == pivotNode.getParent().getLeftChild():
             pivotNode.parent.setLeftChild(rotateNode)
         else:
@@ -282,11 +287,7 @@ class rbTree(bsTree):
         pivotNode.setParent(rotateNode)
         return
 
-    def rightRotate(self, pivotNode=None):
-        # check inputs
-        if pivotNode is None:
-            pivotNode = self.root
-
+    def rightRotate(self, pivotNode):
         # set rotateing node
         rotateNode = pivotNode.getLeftChild()
 
@@ -300,7 +301,8 @@ class rbTree(bsTree):
         rotateNode.setParent(pivotNode.getParent())
         if pivotNode.parent == self.Nil:
             self.root = rotateNode
-
+            self.Nil.setLeftChild(self.root)
+            self.Nil.setRightChild(self.root)
         elif pivotNode == pivotNode.getParent().getRightChild():
             pivotNode.parent.setRightChild(rotateNode)
         else:
@@ -312,39 +314,37 @@ class rbTree(bsTree):
         return
 
     def insertFixUp(self, currNode):
-        # set up variables
-        uncle = None
-        tempNode = None
-
-        # check if currNode has an uncle
-        if currNode.parent == self.Nil:
-            currNode.setColor(color.BLACK)
-        elif currNode.parent.getColor() == color.BLACK:
-            
-        # set uncle
-        tempNode = currNode.getParent().getParent()
-        if tempNode.rightChild != currNode:
-            uncle = tempNode.rightChild
-        elif tempNode.getLeftChild() != currNode:
-            uncle = tempNode.leftChild
-
-        # check case 1
-        if (uncle.getColor() == color.RED):
-            currNode.parent.color = color.BLACK
-            currNode.parent.parent.color = color.RED
-            self.insertFixUp(currNode.parent.parent)
-        # case 2
-        elif (self.isRightChild(currNode)):
-            self.leftRotate(currNode.parent)
-            self.rightRotate(currNode.parent)
-            currNode.color = color.BLACK
-            currNode.rightChild.color = color.RED
-            # case 3
-        else:
-            self.rightRotate(currNode.parent.parent)
-            currNode.parent.color = color.BLACK
-            currNode.parent.rightChild.color = color.RED
-        return
+        # text z = currnode
+        while currNode.getParent().getColor() == color.RED:
+            if currNode.getParent().getParent().getLeftChild() == currNode.getParent():
+                uncle = currNode.getParent().getParent().getRightChild()
+                if uncle.getColor() == color.RED:
+                    currNode.getParent().setColor(color.BLACK)
+                    uncle.setColor(color.BLACK)
+                    currNode.getParent().getParent().setColor(color.RED)
+                    currNode = currNode.getParent().getParent()
+                else:
+                    if currNode == currNode.getParent().getRightChild():
+                        currNode = currNode.getParent()
+                        self.leftRotate(currNode)
+                    currNode.getParent().setColor(color.BLACK)
+                    currNode.getParent().getParent().setColor(color.RED)
+                    self.rightRotate(currNode.getParent().getParent())
+            else:
+                uncle = currNode.getParent().getParent().getLeftChild()
+                if uncle.getColor() == color.RED:
+                    currNode.getParent().setColor(color.BLACK)
+                    uncle.setColor(color.BLACK)
+                    currNode.getParent().getParent().setColor(color.RED)
+                    currNode = currNode.getParent().getParent()
+                else:
+                    if currNode == currNode.getParent().getLeftChild():
+                        currNode = currNode.getParent()
+                        self.rightRotate(currNode)
+                    currNode.getParent().setColor(color.BLACK)
+                    currNode.getParent().getParent().setColor(color.RED)
+                    self.leftRotate(currNode.getParent().getParent())
+            self.root.setColor(color.BLACK)
 
 
 if __name__ == '__main__':
