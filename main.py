@@ -9,9 +9,9 @@ def main():
     for i in range(10):
         data.append(random.randint(0, 20))
         tree.insert(data[i])
-        # tree.printTree()
-        # checkTree(tree, tree.root)
-        # print()
+        tree.printTree()
+        checkTree(tree, tree.root)
+        print()
     tree.printTree()
     print(tree.minimum().getData())
     print(tree.successor(tree.minimum()).getData())
@@ -257,8 +257,8 @@ class rbTree(bsTree):
 
     def isRightChild(self, currNode):
         if currNode.parent.rightChild == currNode:
-            return 1
-        return 0
+            return True
+        return False
 
     def leftRotate(self, pivotNode=None):
         # set rotateing node
@@ -270,7 +270,7 @@ class rbTree(bsTree):
             rotateNode.leftChild.setParent(pivotNode)
         # link pivotNode's parent to rotateNode
         rotateNode.setParent(pivotNode.getParent())
-        if pivotNode.parent == self.nil:
+        if pivotNode.parent == self.Nil:
             self.root = rotateNode
         elif pivotNode == pivotNode.getParent().getLeftChild():
             pivotNode.parent.setLeftChild(rotateNode)
@@ -311,21 +311,16 @@ class rbTree(bsTree):
         pivotNode.setParent(rotateNode)
         return
 
-    def insertFixUp(self, currNode=None):
-        if currNode is None:
-            currNode = self.root
+    def insertFixUp(self, currNode):
         # set up variables
         uncle = None
         tempNode = None
 
         # check if currNode has an uncle
         if currNode.parent == self.Nil:
-            return
-        if currNode.parent.parent == self.Nil:
-            return
-        if currNode.parent.getColor() == color.BLACK:
-            return
-
+            currNode.setColor(color.BLACK)
+        elif currNode.parent.getColor() == color.BLACK:
+            
         # set uncle
         tempNode = currNode.getParent().getParent()
         if tempNode.rightChild != currNode:
@@ -339,7 +334,7 @@ class rbTree(bsTree):
             currNode.parent.parent.color = color.RED
             self.insertFixUp(currNode.parent.parent)
         # case 2
-        elif (self.isRightChild(currNode) == 1):
+        elif (self.isRightChild(currNode)):
             self.leftRotate(currNode.parent)
             self.rightRotate(currNode.parent)
             currNode.color = color.BLACK
