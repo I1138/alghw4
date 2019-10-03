@@ -1,0 +1,12 @@
+Authors: Ian Bolin, Joel Akers
+Hw4 Algorigthms
+
+algorithms located in main.py
+
+Note on testing:
+Algorithms were tested extensively with random inserts and removes. The included main inserts and removes n numbers between 2n and 0 from both the
+BST and RBTree. If it detects an error - the tree has misaligned pointers, or for RBTrees, the black height is off, or a red node has a red parent,
+it prints the tree and then exits. This should allow easy error detection for large N. It does not check for valid binary search tree structure,
+however, due to using search to locate nodes to delete, an improperly formed BST would quickly become evident. It also does not check for a red 
+root node, however we checked a number of cases manually for this beharvior. Inserting to an empty tree, and removing the last node is also tested
+to work.
